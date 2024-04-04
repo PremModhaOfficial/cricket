@@ -30,8 +30,8 @@ visitor_team_name = ptg.InputField(prompt="visitor team name: ", name="visitor")
 OUTPUT = {}
 
 
-def submit(manager: ptg.WindowManager, window: ptg.Window, stop=False) -> None:
-	for widget in window:
+def submit(my_manager: ptg.WindowManager, my_window: ptg.Window, another: ptg.Window) -> None:
+	for widget in my_window:
 		if isinstance(widget, ptg.InputField):
 			OUTPUT[widget.prompt] = widget.value
 			continue
@@ -40,14 +40,9 @@ def submit(manager: ptg.WindowManager, window: ptg.Window, stop=False) -> None:
 			label, field = iter(widget)
 			OUTPUT[label.value] = field.value
 		
-		manager.stop()
+		my_manager.focus(another)
 
 
-li = []
-for i in range(2):
-	li.append(ptg.InputField(prompt=f"{i}"))
-
-li = tuple(li)
 with ptg.WindowManager() as manager:
 	window = (
 		ptg.Window(
@@ -55,12 +50,28 @@ with ptg.WindowManager() as manager:
 			host_team_name,
 			visitor_team_name,
 			"",
-			li,
 			"",
-			["Submit", lambda *_: submit(manager, window)],
+			["Submit", lambda *_: submit(manager, window, windowb)],
 		)
 	
 	)
 	
 	window.select(0)
 	manager.add(window)
+
+with ptg.WindowManager() as manager:
+	windowb = (
+		ptg.Window(
+			"",
+			host_team_name,
+			visitor_team_name,
+			"",
+			'2',
+			"",
+			["Submit", lambda *_: submit(manager, windowb, window)],
+		)
+	
+	)
+	
+	windowb.select(0)
+	manager.add(windowb)

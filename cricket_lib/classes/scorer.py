@@ -75,7 +75,7 @@ class Scorer(object):
 						print(f"{player} run {runs} in {ball_type}")
 				continue
 	
-	def set_team_preference(self, team_name: str, opted_in: str, opted_out: str):
+	def set_team_preference(self, team_name: str, opted_in: str):
 		team_index = -1
 		opted: Opted = Opted(opted_in)
 		if team_name == self.playing_teams[0].name:
