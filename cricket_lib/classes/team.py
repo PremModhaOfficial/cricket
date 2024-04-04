@@ -10,3 +10,6 @@ class Team(object):
 	# this creates a new list everytime
 	opted: Opted = field(default=Opted.NOT, init=False)
 	players: list[Player] = field(default_factory=list)
+	
+	def append_player(self, current_baller: Player, player_type: Opted):
+		self.players.append(current_baller)
