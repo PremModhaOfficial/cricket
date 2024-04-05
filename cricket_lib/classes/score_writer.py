@@ -1,5 +1,5 @@
 from cricket_lib.classes.scorer import Scorer
-from cricket_lib.enums import Opted
+from cricket_lib.enums import Opted, BallType
 from score_parcer import DEVMODE
 
 
@@ -61,8 +61,61 @@ class ScoreWriter:
         print(self.current_info) if DEVMODE else None
         return self.current_info
 
-    def get_init_bowler(self):
+    def get_bowler_name(self):
         baller_name = input(f"Enter Baller name: ")
         self.current_info = f"$ BALLER {baller_name}"
         self.log += self.current_info
         return self.current_info
+
+    def get_over(self):
+        batting_runs = self.scorer.batting_team.runs
+        bowling_runs = self.scorer.bowling_team.runs
+        self.current_info = "$ OVER"
+
+        valid_balls_remain = 6
+        while valid_balls_remain > 0 and not (self.scorer.first_team_played and batting_runs - bowling_runs > 0):
+            # get full over when not first_team_played
+            prompt: dict = dict.fromkeys(range(0, 6))
+            print("Select ball type")
+
+            ball_number = None
+            while ball_number not in prompt.keys():
+                for index, ball_type in enumerate(BallType.get_all_types()):
+                    print(index, ball_type)
+                    prompt[int(index)] = ball_type
+                ball_number = int(input("\n"))
+
+            current_ball_type: BallType = BallType(prompt[ball_number])
+            runs = input('enter runs made')
+            players = dict.fromkeys(range(2))
+            players[0] = self.scorer.active_batsman.name
+            players[1] = self.scorer.passive_batsman.name
+            print('enter player')
+            print(players)
+            player = -1
+            current_ball_type = current_ball_type.value
+
+            while player not in ['1', '0']:
+                player = input("enter player number")
+            if current_ball_type != BallType.WICKET.value:
+                self.current_info += f" $ {current_ball_type} {runs} {players[int(player)]}"
+            else:
+                new_player = input("enter player name")
+                self.current_info += f" $ {current_ball_type} {runs} {players[int(player)]}::{new_player}"
+
+            self.log += self.current_info
+            print(self.current_info)
+
+            if current_ball_type == BallType.WIDE.value or current_ball_type == BallType.NO_BALL.value:
+                continue
+            valid_balls_remain -= 1
+
+    def end_game(self):
+        self.current_info = "$ END"
+        self.log += self.current_info
+        return "$ END"
+
+    def change_sides(self):
+        self.current_info = "$ CHANGE"
+        self.log += self.current_info
+        return "$ CHANGE"

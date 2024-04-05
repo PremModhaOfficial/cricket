@@ -9,6 +9,15 @@ class BallType(Enum):
     LEG_BYES = "leg_byes"
     WICKET = "wicket"
 
+    @classmethod
+    def get_all_types(cls):
+        yield f"{cls.NORMAL.value}"
+        yield f"{cls.WIDE.value}"
+        yield f"{cls.NO_BALL.value}"
+        yield f"{cls.BYES.value}"
+        yield f"{cls.LEG_BYES.value}"
+        yield f"{cls.WICKET.value}"
+
 
 class Opted(Enum):
     BAT = 'batting'

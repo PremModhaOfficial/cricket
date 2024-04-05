@@ -105,9 +105,6 @@ class Scorer(object):
 
                     current_ball_type: BallType = BallType(ball_type)
 
-                    if "=>" in name_of_player:
-                        pass
-
                     player_ran: Player = self.get_batsman_by_name(name_of_player)
 
                     # normal ball
@@ -136,7 +133,8 @@ class Scorer(object):
                         self.update_runs(runs)
                         self.batting_team.wicket += 1
                         if self.batting_team.wicket >= 10:
-                            exit(f"{self.bowling_team} wins the game by {self.bowling_team.runs - self.batting_team.runs} runs")
+                            exit(
+                                f"{self.bowling_team} wins the game by {self.bowling_team.runs - self.batting_team.runs} runs")
                         self.handel_wicket(ball_info, runs)
                         continue
 
