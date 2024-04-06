@@ -1,3 +1,5 @@
+import score_parcer
+from cricket_lib.classes.ploter import Plotter
 from cricket_lib.classes.score_writer import ScoreWriter
 from cricket_lib.classes.scorer import Scorer
 
@@ -6,35 +8,35 @@ WIDEBALL = {"RUN": 1, "RETHROW": True}
 PLAYERS_PER_TEAM = 11
 
 
-def main(host_team="host team", visitor_team="visitor team", dev_mode=False):
-    scorer = Scorer()
-    score_writer = ScoreWriter(scorer)
+scorer = Scorer()
 
-    scorer.match_reader(score_writer.get_team_names())
-    scorer.match_reader(score_writer.get_toss_info())
+score_writer = ScoreWriter(scorer)
+#scorer.match_reader(score_parcer.score)
 
-    scorer.match_reader(score_writer.get_init_batsman())
+scorer.match_reader(score_writer.get_team_names())
+scorer.match_reader(score_writer.get_toss_info())
 
-    # play overs
-    total_overs = int(input('How many overs would you like to play? '))
-    for over in range(total_overs):
-        print()
-        print("over", over + 1)
-        scorer.match_reader(score_writer.get_bowler_name())
-        scorer.match_reader(score_writer.get_over())
+scorer.match_reader(score_writer.get_init_batsman())
 
-    scorer.match_reader(score_writer.change_sides())
-    for over in range(total_overs):
-        print()
-        print("over", over + 1)
-        scorer.match_reader(score_writer.get_bowler_name())
-        scorer.match_reader(score_writer.get_over())
-    # scorer.match_reader(score)
+# play overs
+total_overs = int(input('How many overs would you like to play? '))
+for over in range(total_overs):
+    print()
+    scorer.match_reader(score_writer.get_bowler_name())
+    print("over", over + 1, score_writer.scorer.current_baller.name)
+    scorer.match_reader(score_writer.get_over())
 
-    scorer.match_reader(score_writer.end_game())
+scorer.match_reader(score_writer.change_sides())
+scorer.match_reader(score_writer.get_init_batsman())
+for over in range(total_overs):
+    print()
+    scorer.match_reader(score_writer.get_bowler_name())
+    print("over", over + 1, score_writer.scorer.current_baller.name)
+    scorer.match_reader(score_writer.get_over())
+# scorer.match_reader(score)
 
-    print(scorer)
+plot = Plotter(scorer)
+plot.plot_over_wise_runs()
+print(score_writer.log)
 
-
-if __name__ == '__main__':
-    main(dev_mode=True)
+scorer.match_reader(score_writer.end_game())

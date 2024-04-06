@@ -1,29 +1,28 @@
-DEVMODE = True
+DEVMODE = False
 score = """
 $ TEAM ['host_team_name', 'visitor_team_name']
 
-BAT = 'batting' ||  NOT = "not_decided" ||  BOWL = "bowling"
-toss    won_by           opted to
 $ TOSS host_team_name batting
-
-begin match
-
 
 $ BATTERS batter_1 batter_2
 
-over 1
 $ BALLER baller_1
+
 $ OVER $ normal 9 batter_1 $ wicket 9 batter_1=>batter_3 $ normal 9 batter_3 $ wide 1 batter_2 $ normal 6 batter_3 $ wide 1 batter_2
+$ OVER $ normal 1 batter_3 $ wicket 9 batter_3=>batter_4 $ normal 3 batter_4 $ wide 1 batter_2 $ normal 6 batter_4 $ wide 1 batter_2
+$ OVER $ normal 6 batter_4 $ wicket 9 batter_4=>batter_5 $ normal 6 batter_5 $ wide 6 batter_2 $ normal 6 batter_5 $ wide 6 batter_2
 
 $ CHANGE
 
 $ BATTERS batter_1 batter_2
 
-over 1
 $ BALLER baller_1
-$ OVER $ normal 9 batter_1 $ wicket 9 batter_1=>batter_3 $ normal 6 batter_3 $ wide 1 batter_2 $ normal 6 batter_3 $ wide 1 batter_2
 
-$ END
+$ OVER $ normal 0 batter_1 $ wicket 9 batter_1=>batter_3 $ normal 9 batter_3 $ wide 1 batter_2 $ normal 6 batter_3 $ wide 1 batter_2
+$ OVER $ normal 1 batter_3 $ wicket 9 batter_3=>batter_4 $ normal 3 batter_4 $ wide 1 batter_2 $ normal 6 batter_4 $ wide 1 batter_2
+$ OVER $ normal 0 batter_4 $ wicket 9 batter_4=>batter_5 $ normal 6 batter_5 $ wide 6 batter_2 $ normal 6 batter_5 $ wide 6 batter_2
+$ OVER $ normal 0 batter_2 $ normal 6 batter_5 $ wide 6 batter_2 $ normal 6 batter_5 $ wide 6 batter_2 $ normal 6 batter_5 $ wide 6 batter_2
+
 """
 
 
